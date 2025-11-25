@@ -108,11 +108,7 @@
         <h2>Checkout</h2>
         <div id="cart-summary"></div>
         
-        <!-- Formspree form with redirect to thanks.html -->
-        <form id="checkout-form" class="checkout-form" 
-              action="https://formspree.io/f/xrbvjyvn?_next=thanks.html" 
-              method="POST">
-            
+        <form id="checkout-form" class="checkout-form">
             <!-- Hidden field for cart details -->
             <input type="hidden" name="cart_data" id="cart-data-field">
 
@@ -150,15 +146,29 @@
                 cartText += `${item.name} - $${item.price} x ${item.quantity}\n`;
             });
             cartSummary.innerHTML += `<strong>Total: $${total}</strong>`;
-            // Set cart data in hidden field for Formspree
             document.getElementById('cart-data-field').value = cartText + `\nTotal: $${total}`;
         }
 
         renderCartSummary();
 
-        // Clear cart after submission
-        document.getElementById('checkout-form').addEventListener('submit', function() {
-            localStorage.removeItem('cart');
+        // Submit form with fetch so users never see Formspree page
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('https://formspree.io/f/xrbvjyvn', {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    localStorage.removeItem('cart'); // clear cart
+                    window.location.href = 'thanks.html'; // redirect to thank you page
+                } else {
+                    alert('Submission failed. Please try again.');
+                }
+            })
+            .catch(() => alert('Submission failed. Please try again.'));
         });
     </script>
 </body>
