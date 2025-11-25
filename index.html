@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negm Apparel</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .brand a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .cart-count {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+        .product-section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .product-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        .product-details {
+            margin-top: 20px;
+        }
+        .product-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        .cart-section {
+            display: none;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            nav {
+                gap: 10px;
+            }
+            .product-image {
+                max-width: 100%;
+            }
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cart-item img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand"><a href="#product" onclick="goToMain()">Negm Apparel</a></div>
+        <nav>
+            <a href="#product" onclick="goToMain()">Shop</a>
+            <a href="#cart" onclick="showCart()">Cart <span id="cart-count" class="cart-count">0</span></a>
+        </nav>
+    </header>
+
+    <section id="product" class="product-section">
+        <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png" alt="Vancleef Whits Silver Praclet" class="product-image">
+        <div class="product-details">
+            <div class="product-name">Vancleef Whits Silver Praclet</div>
+            <div class="product-price">$499</div>
+            <div class="buttons">
+                <button onclick="addToCart()">Add to Cart</button>
+                <button onclick="buyNow()">Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="cart" class="cart-section">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+        <button onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+        <button onclick="backToShop()">Back to Shop</button>
+    </section>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+
+        function addToCart() {
+            const item = {
+                name: 'Vancleef Whits Silver Praclet',
+                price: 499,
+                image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png',
+                quantity: 1
+            };
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('Item added to cart!');
+        }
+
+        function buyNow() {
+            const item = {
+                name: 'Vancleef Whits Silver Praclet',
+                price: 499,
+                image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png',
+                quantity: 1
+            };
+            cart = [item]; // Directly set cart to this item for Buy Now
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            window.location.href = 'checkout.html'; // Navigate to checkout page
+        }
+
+        function showCart() {
+            document.querySelector('.product-section').style.display = 'none';
+            document.querySelector('.cart-section').style.display = 'block';
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <div>${item.name}</div>
+                            <div>$${item.price}</div>
+                            <div class="quantity-controls">
+                                <button onclick="changeQuantity(${index}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="changeQuantity(${index}, 1)">+</button>
+                            </div>
+                            <button onclick="removeItem(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+            cartTotal.innerHTML = `<strong>Total: $${total}</strong>`;
+        }
+
+        function changeQuantity(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCart();
+        }
+
+        function backToShop() {
+            document.querySelector('.cart-section').style.display = 'none';
+            document.querySelector('.product-section').style.display = 'block';
+        }
+
+        function goToMain() {
+            document.querySelector('.cart-section').style.display = 'none';
+            document.querySelector('.product-section').style.display = 'block';
+        }
+
+        updateCartCount();
+    </script>
+</body>
+</html>
