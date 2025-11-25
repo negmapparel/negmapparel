@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Negm Apparel</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .brand a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .checkout-section, .thank-you {
+            display: none;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .checkout-section {
+            display: block; /* Show by default */
+        }
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .name-surname-row {
+            display: flex;
+            gap: 15px;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #000000;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        .thank-you {
+            text-align: center;
+        }
+        .thank-you h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            nav {
+                gap: 10px;
+            }
+            .name-surname-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand"><a href="index.html#product">Negm Apparel</a></div>
+        <nav>
+            <a href="index.html#product">Shop</a>
+        </nav>
+    </header>
+
+    <section id="checkout" class="checkout-section">
+        <h2>Checkout</h2>
+        <div id="cart-summary"></div>
+        <form id="checkout-form" class="checkout-form">
+            <input type="email" name="email" placeholder="Email" required>
+            <div class="name-surname-row">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="text" name="surname" placeholder="Surname" required>
+            </div>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="city" placeholder="City" required>
+            <input type="text" name="state" placeholder="State" required>
+            <input type="text" name="zip" placeholder="ZIP" required>
+            <select name="country" required>
+                <option value="">Select Country</option>
+                <option value="US">United States</option>
+                <option value="EG">Egypt</option>
+                <!-- Add more options as needed -->
+            </select>
+            <div>Payment Method: Cash on Delivery</div>
+            <button type="submit">Complete Purchase</button>
+        </form>
+    </section>
+
+    <section id="thank-you" class="thank-you">
+        <h2>Thank you for your purchase!</h2>
+        <button onclick="window.location.href='index.html#product'">Return to Shopping</button>
+    </section>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function renderCartSummary() {
+            const cartSummary = document.getElementById('cart-summary');
+            cartSummary.innerHTML = '<h3>Order Summary</h3>';
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                cartSummary.innerHTML += `<div>${item.name} - $${item.price} x ${item.quantity}</div>`;
+            });
+            cartSummary.innerHTML += `<strong>Total: $${total}</strong>`;
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            // Add cart details to form data
+            formData.append('cart', JSON.stringify(cart));
+            fetch('https://formspree.io/f/[YOUR_FORMSPREE_ID]', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.querySelector('.checkout-section').style.display = 'none';
+                    document.querySelector('.thank-you').style.display = 'block';
+                    cart = [];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                } else {
+                    alert('Submission failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert('Submission failed. Please try again.');
+            });
+        });
+
+        renderCartSummary();
+    </script>
+</body>
+</html>
