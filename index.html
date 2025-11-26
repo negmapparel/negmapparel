@@ -21,6 +21,8 @@
             padding: 20px;
             background-color: #ffffff;
             border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            z-index: 10;
         }
         .brand a {
             text-decoration: none;
@@ -47,22 +49,62 @@
             border-radius: 50%;
             font-size: 12px;
         }
+        .video-banner {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+        .video-banner video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        .shop-now-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #000000;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .shop-now-btn:hover {
+            background-color: #f0f0f0;
+            transform: translate(-50%, -50%) translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
         .product-section {
             padding: 40px 20px;
             text-align: center;
         }
+        .products-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .product {
+            max-width: 300px;
+            text-align: center;
+        }
         .product-image {
             width: 100%;
-            max-width: 600px;
             height: auto;
-            margin: 0 auto;
-            display: block;
+            margin-bottom: 20px;
         }
         .product-details {
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
         .product-name {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -73,13 +115,13 @@
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         button {
             background-color: #ffffff;
             border: 1px solid #000000;
-            padding: 12px 24px;
+            padding: 10px 20px;
             font-size: 14px;
             cursor: pointer;
             text-transform: uppercase;
@@ -126,7 +168,19 @@
             nav {
                 gap: 10px;
             }
-            .product-image {
+            .video-banner {
+                height: 250px;
+            }
+            .shop-now-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            .products-grid {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .product {
                 max-width: 100%;
             }
             .buttons {
@@ -153,14 +207,37 @@
         </nav>
     </header>
 
+    <section class="video-banner">
+        <video autoplay loop muted playsinline>
+            <source src="https://res.cloudinary.com/ds9bldncb/video/upload/v1764121279/ssstik.io_1764121179578_zwsdoc.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button class="shop-now-btn" onclick="scrollToProducts()">Shop Now</button>
+    </section>
+
     <section id="product" class="product-section">
-        <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png" alt="Vancleef Whits Silver Praclet" class="product-image">
-        <div class="product-details">
-            <div class="product-name">Vancleef Whits Silver Praclet</div>
-            <div class="product-price">$499</div>
-            <div class="buttons">
-                <button onclick="addToCart()">Add to Cart</button>
-                <button onclick="buyNow()">Buy Now</button>
+        <div class="products-grid">
+            <div class="product">
+                <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png" alt="Vancleef Whits Silver Praclet" class="product-image">
+                <div class="product-details">
+                    <div class="product-name">Vancleef Whits Silver Praclet</div>
+                    <div class="product-price">$499</div>
+                    <div class="buttons">
+                        <button onclick="addToCart('bracelet')">Add to Cart</button>
+                        <button onclick="buyNow('bracelet')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764121616/nfl_hats_ylo2rw.png" alt="NFL Hats" class="product-image">
+                <div class="product-details">
+                    <div class="product-name">NFL Hats</div>
+                    <div class="product-price">$799</div>
+                    <div class="buttons">
+                        <button onclick="addToCart('hats')">Add to Cart</button>
+                        <button onclick="buyNow('hats')">Buy Now</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -180,30 +257,54 @@
             document.getElementById('cart-count').textContent = cart.length;
         }
 
-        function addToCart() {
-            const item = {
-                name: 'Vancleef Whits Silver Praclet',
-                price: 499,
-                image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png',
-                quantity: 1
-            };
+        function addToCart(productType) {
+            let item;
+            if (productType === 'bracelet') {
+                item = {
+                    name: 'Vancleef Whits Silver Praclet',
+                    price: 499,
+                    image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png',
+                    quantity: 1
+                };
+            } else if (productType === 'hats') {
+                item = {
+                    name: 'NFL Hats',
+                    price: 799,
+                    image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764121616/nfl_hats_ylo2rw.png',
+                    quantity: 1
+                };
+            }
             cart.push(item);
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
             alert('Item added to cart!');
         }
 
-        function buyNow() {
-            const item = {
-                name: 'Vancleef Whits Silver Praclet',
-                price: 499,
-                image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png',
-                quantity: 1
-            };
+        function buyNow(productType) {
+            let item;
+            if (productType === 'bracelet') {
+                item = {
+                    name: 'Vancleef Whits Silver Praclet',
+                    price: 499,
+                    image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png',
+                    quantity: 1
+                };
+            } else if (productType === 'hats') {
+                item = {
+                    name: 'NFL Hats',
+                    price: 799,
+                    image: 'https://res.cloudinary.com/ds9bldncb/image/upload/v1764121616/nfl_hats_ylo2rw.png',
+                    quantity: 1
+                };
+            }
             cart = [item]; // Directly set cart to this item for Buy Now
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
             window.location.href = 'checkout.html'; // Navigate to checkout page
+        }
+
+        function scrollToProducts() {
+            document.getElementById('product').scrollIntoView({ behavior: 'smooth' });
         }
 
         function showCart() {
