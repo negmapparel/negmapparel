@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Negm Apparel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Helvetica Neue', sans-serif;
@@ -176,7 +175,6 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s ease;
         }
         .modal-content {
             background-color: #ffffff;
@@ -216,26 +214,12 @@
         }
         footer .social a {
             color: #000000;
-            font-size: 24px;
-            margin: 0 10px;
+            font-size: 18px;
             text-decoration: none;
-        }
-        footer .links {
-            margin-bottom: 10px;
-        }
-        footer .links a {
-            color: #000000;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 14px;
         }
         footer .copyright {
             font-size: 12px;
             color: #666666;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
         @media (max-width: 768px) {
             header {
@@ -273,10 +257,6 @@
                 margin-right: 0;
                 margin-bottom: 10px;
             }
-            footer .links a {
-                display: block;
-                margin: 5px 0;
-            }
         }
     </style>
 </head>
@@ -299,7 +279,7 @@
     <section id="product" class="product-section">
         <div class="products-grid">
             <div class="product">
-                <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png" alt="Vancleef Whits Silver Praclet" class="product-image">
+                <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png" alt="Vancleef Whits Silver Praclet" class="product-image" loading="lazy">
                 <div class="product-details">
                     <div class="product-name">Vancleef Whits Silver Praclet</div>
                     <div class="product-price">L.E 499</div>
@@ -310,7 +290,7 @@
                 </div>
             </div>
             <div class="product">
-                <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764121616/nfl_hats_ylo2rw.png" alt="NFL Hats" class="product-image">
+                <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764121616/nfl_hats_ylo2rw.png" alt="NFL Hats" class="product-image" loading="lazy">
                 <div class="product-details">
                     <div class="product-name">NFL Hats</div>
                     <div class="product-price">L.E 799</div>
@@ -341,11 +321,7 @@
 
     <footer>
         <div class="social">
-            <a href="https://www.instagram.com/negmapparel" target="_blank"><i class="fab fa-instagram"></i></a>
-        </div>
-        <div class="links">
-            <a href="terms.html">Terms of Service</a>
-            <a href="shipping.html">Shipping Policy</a>
+            <a href="https://www.instagram.com/negmapparel" target="_blank">Instagram</a>
         </div>
         <div class="copyright">
             &copy; 2025 Negm Apparel, Made by NEGM. All Rights Reserved.<br>
@@ -425,7 +401,7 @@
                 total += item.price * item.quantity;
                 cartItems.innerHTML += `
                     <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}">
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
                         <div class="cart-item-details">
                             <div>${item.name}</div>
                             <div>L.E ${item.price}</div>
