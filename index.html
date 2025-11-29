@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Negm Apparel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Helvetica Neue', sans-serif;
@@ -13,6 +14,9 @@
             color: #000000;
             font-size: 14px;
             line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         .video-banner {
             width: 100%;
@@ -37,14 +41,10 @@
             align-items: center;
             padding: 20px;
         }
-        .brand a {
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        .brand img {
+            height: 100px;
+            width: auto;
+            max-width: 400px;
         }
         nav {
             display: flex;
@@ -87,6 +87,7 @@
         .product-section {
             padding: 40px 20px;
             text-align: center;
+            flex-grow: 1;
         }
         .products-grid {
             display: flex;
@@ -142,6 +143,7 @@
             padding: 40px 20px;
             max-width: 800px;
             margin: 0 auto;
+            flex-grow: 1;
         }
         .cart-item {
             display: flex;
@@ -203,6 +205,34 @@
             font-size: 20px;
             cursor: pointer;
         }
+        footer {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #cccccc;
+        }
+        footer .social {
+            margin-bottom: 10px;
+        }
+        footer .social a {
+            color: #000000;
+            font-size: 24px;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        footer .links {
+            margin-bottom: 10px;
+        }
+        footer .links a {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        footer .copyright {
+            font-size: 12px;
+            color: #666666;
+        }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -213,6 +243,10 @@
             }
             nav {
                 gap: 10px;
+            }
+            .brand img {
+                height: 60px;
+                max-width: 250px;
             }
             .shop-now-btn {
                 top: 70%;
@@ -239,17 +273,21 @@
                 margin-right: 0;
                 margin-bottom: 10px;
             }
+            footer .links a {
+                display: block;
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
 <body>
     <section class="video-banner">
         <video autoplay loop muted playsinline>
-            <source src="https://res.cloudinary.com/ds9bldncb/video/upload/v1764274915/ssstik.io_1764272048537_gdetmv.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/ds9bldncb/video/upload/v1764121279/ssstik.io_1764121179578_zwsdoc.mov" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <header>
-            <div class="brand"><a href="#product" onclick="goToMain()">Negm Apparel</a></div>
+            <div class="brand"><a href="#product" onclick="goToMain()"><img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764387538/logo_text_arabic_white_kucdkz.png" alt="Negm Apparel"></a></div>
             <nav>
                 <a href="#product" onclick="goToMain()">Shop</a>
                 <a href="#cart" onclick="showCart()">Cart <span id="cart-count" class="cart-count">0</span></a>
@@ -264,7 +302,7 @@
                 <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764004840/vancleef_whits_silver_praclet_fmd4xl.png" alt="Vancleef Whits Silver Praclet" class="product-image">
                 <div class="product-details">
                     <div class="product-name">Vancleef Whits Silver Praclet</div>
-                    <div class="product-price">$499</div>
+                    <div class="product-price">L.E 499</div>
                     <div class="buttons">
                         <button onclick="addToCart('bracelet')">Add to Cart</button>
                         <button onclick="buyNow('bracelet')">Buy Now</button>
@@ -275,7 +313,7 @@
                 <img src="https://res.cloudinary.com/ds9bldncb/image/upload/v1764121616/nfl_hats_ylo2rw.png" alt="NFL Hats" class="product-image">
                 <div class="product-details">
                     <div class="product-name">NFL Hats</div>
-                    <div class="product-price">$799</div>
+                    <div class="product-price">L.E 799</div>
                     <div class="buttons">
                         <button onclick="addToCart('hats')">Add to Cart</button>
                         <button onclick="buyNow('hats')">Buy Now</button>
@@ -300,6 +338,20 @@
             <p>Your item has been added to the cart.</p>
         </div>
     </div>
+
+    <footer>
+        <div class="social">
+            <a href="https://www.instagram.com/negmapparel" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="links">
+            <a href="terms.html">Terms of Service</a>
+            <a href="shipping.html">Shipping Policy</a>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Negm Apparel, Made by NEGM. All Rights Reserved.<br>
+            All content, branding, and materials are the sole property of NEGM. Unauthorized use is strictly prohibited.
+        </div>
+    </footer>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -376,7 +428,7 @@
                         <img src="${item.image}" alt="${item.name}">
                         <div class="cart-item-details">
                             <div>${item.name}</div>
-                            <div>$${item.price}</div>
+                            <div>L.E ${item.price}</div>
                             <div class="quantity-controls">
                                 <button onclick="changeQuantity(${index}, -1)">-</button>
                                 <span>${item.quantity}</span>
@@ -387,7 +439,7 @@
                     </div>
                 `;
             });
-            cartTotal.innerHTML = `<strong>Total: $${total}</strong>`;
+            cartTotal.innerHTML = `<strong>Total: L.E ${total}</strong>`;
         }
 
         function changeQuantity(index, delta) {
